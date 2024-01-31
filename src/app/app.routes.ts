@@ -11,20 +11,16 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 export const routes: Routes = [
     { 
         path: 'template',
-        children: [
-            { path: 'basicos', component: BasicosComponent },
-            { path: 'dinamicos', component: DinamicosComponent},
-            { path: 'switches', component: SwitchesComponent}
-        ]
+        loadChildren:()=> import('./template/routes').then( mod => mod.routes)
       },
       { 
         path: 'reactive',
-        children: [
-            { path: 'basicos', component: BasicosReactive },
-            { path: 'dinamicos', component: DinamicosReactive},
-            { path: 'switches', component: SwitchesReactive}
-        ]
+        loadChildren:()=> import('./reactive/routes').then(mod=> mod.routes)
         
+      },
+      {
+        path: 'auth',
+        loadChildren:()=> import('./auth/routes').then(mod=>mod.routes)
       },
       {
         path: '',

@@ -1,0 +1,93 @@
+<h2>Validaciones Reactivas</h2>
+<hr>
+
+<div class="row">
+    <div class="col">
+
+        <form [formGroup]="myForm" (ngSubmit)="submit()">
+
+            <div class="row mb3">
+                <label class="col-sm-3 col-form-label">Nombre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Nombre del usuario"
+                    formControlName="name"
+                    >
+                    @if (ifValidField('name')) {
+                        <span class="form-text text-danger">
+                            Debe ser en formato de nombre y apellido
+                        </span>
+                    }
+                    
+
+                </div>
+            </div>
+
+            <div class="row mb3">
+                <label class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-9">
+                    <input type="e,ao;" class="form-control" placeholder="Email del usuario"
+                    formControlName="email"
+                    >
+
+                    @if (ifValidField('email')) {
+                        <span class="form-text text-danger">
+                            Es requerido el email
+                        </span>
+                    }
+
+                </div>
+            </div>
+
+            <div class="row mb3">
+                <label class="col-sm-3 col-form-label">Username</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Login del usuario"
+                    formControlName="username"
+                    >
+
+                    @if (ifValidField('username')) {
+                        <span class="form-text text-danger">
+                            El username es requerido
+                        </span>
+                    }
+
+                </div>
+            </div>
+
+            <div class="row mb3">
+                <label class="col-sm-3 col-form-label">Contraseña</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" placeholder="Contraseña del usuario"
+                    formControlName="password"
+                    >
+                    @if (ifValidField('password')) {
+                        <span class="form-text text-danger">
+                            Es requerido el password
+                        </span>
+                    }
+
+                </div>
+            </div>
+
+            <div class="row mb3">
+                <label class="col-sm-3 col-form-label">Confirmar contraseña</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" placeholder="Confirmar contraseña del usuario"
+                    formControlName="passwordConfirm"
+                    >
+
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button [disabled]="myForm.invalid" class="btn btn-primary float-end">Guardar</button>
+                </div>
+            </div>
+        </form>
+
+        <span>Formulario</span>
+        <pre>{{myForm.value|json}}</pre>
+    </div>
+</div>
