@@ -14,10 +14,12 @@ export class RegisterComponent implements OnInit{
   constructor(private fb: FormBuilder){
   }
   nameSurnamePattern: string = '([a-zA-Z]+) ([a-zA-Z]+)'
+  emailSurnamePattern: string = '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
   
   myForm:FormGroup = this.fb.group({
     name:['',[Validators.required,Validators.pattern(this.nameSurnamePattern)]],
-    email:['',[Validators.required,Validators.email]],
+    email:['',[Validators.required,Validators.pattern(this.emailSurnamePattern)]],
     username:['',Validators.required],
     password:['',Validators.required],
     passwordConfirm:['',Validators.required]
