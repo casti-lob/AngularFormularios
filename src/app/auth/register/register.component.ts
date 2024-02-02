@@ -1,7 +1,9 @@
 import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PersonRegister } from '../../interfaces/personRegister';
+import { ValidatorsService } from '../../shared/validators/validators.service';
+import { ValidateEmailService } from '../../shared/validators/validate-email.service';
 
 @Component({
   selector: 'app-register',
@@ -11,19 +13,21 @@ import { PersonRegister } from '../../interfaces/personRegister';
 })
 export class RegisterComponent implements OnInit{
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder,
+    private validatorsService : ValidatorsService,
+    private emailValidatorsService: ValidateEmailService
+    ){
   }
-  nameSurnamePattern: string = '([a-zA-Z]+) ([a-zA-Z]+)'
-  emailSurnamePattern: string = '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-
+ 
+  
   
   myForm:FormGroup = this.fb.group({
-    name:['',[Validators.required,Validators.pattern(this.nameSurnamePattern)]],
-    email:['',[Validators.required,Validators.pattern(this.emailSurnamePattern)]],
-    username:['',Validators.required],
-    password:['',Validators.required],
+    name:['',[Validators.required,Validators.pattern(this.validatorsService.nameSurnamePattern)]],
+    email:['',[Validators.required,Validators.pattern(this.validatorsService.emailSurnamePattern)],[this.emailValidatorsService]],
+    username:['',[Validators.required, this.validatorsService.forbiddenNameValidator('fran')]],
+    password:['',[Validators.required, Validators.minLength(6)]],
     passwordConfirm:['',Validators.required]
-  })
+  },{validators:[this.validatorsService.equalFields('password','passwordConfirm')]})
 
   person:PersonRegister={
     name: '',
@@ -36,6 +40,11 @@ export class RegisterComponent implements OnInit{
     //para mostrar error cuando le da al boton
     this.myForm.markAllAsTouched()
     console.log(this.person);
+    if(this.myForm.valid){
+      //enviar al server
+      console.log('Enviado');
+      
+    }
     
   }
 

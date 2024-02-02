@@ -47,7 +47,7 @@
 
                     @if (ifValidField('username')) {
                         <span class="form-text text-danger">
-                            El username es requerido
+                            No puede usar ese username
                         </span>
                     }
 
@@ -62,7 +62,7 @@
                     >
                     @if (ifValidField('password')) {
                         <span class="form-text text-danger">
-                            Es requerido el password
+                            La contraseña debe tener 6 caracteres
                         </span>
                     }
 
@@ -75,19 +75,33 @@
                     <input type="password" class="form-control" placeholder="Confirmar contraseña del usuario"
                     formControlName="passwordConfirm"
                     >
-
+                    @if (ifValidField('passwordConfirm')) {
+                        <span class="form-text text-danger">
+                            Las contraseñas deben de ser iguales
+                        </span>
+                    }
 
                 </div>
             </div>
 
             <div class="row">
                 <div class="col">
-                    <button [disabled]="myForm.invalid" class="btn btn-primary float-end">Guardar</button>
+                    <button [disabled]="myForm.pending" class="btn btn-primary float-end">Guardar</button>
                 </div>
             </div>
         </form>
 
         <span>Formulario</span>
-        <pre>{{myForm.value|json}}</pre>
+        <pre>{{myForm.valid}}</pre>
     </div>
 </div>
+<h2>USERNAME</h2>
+{{myForm.controls['username'].errors |json}}
+
+<h2>Form errors</h2>
+<pre>{{myForm.errors|json}}</pre>
+<h2>Form status</h2>
+{{myForm.status}}
+
+<h2>Form pending</h2>
+{{myForm.pending}}
