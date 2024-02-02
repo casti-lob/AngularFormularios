@@ -1,21 +1,24 @@
-import { JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PersonRegister } from '../../interfaces/personRegister';
 import { ValidatorsService } from '../../shared/validators/validators.service';
 import { ValidateEmailService } from '../../shared/validators/validate-email.service';
+import { UserService } from '../../services/user.service';
+import { Observable, catchError, ignoreElements, of } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule,JsonPipe],
+  imports: [ReactiveFormsModule,JsonPipe,AsyncPipe],
   templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit{
 
   constructor(private fb: FormBuilder,
     private validatorsService : ValidatorsService,
-    private emailValidatorsService: ValidateEmailService
+    private emailValidatorsService: ValidateEmailService,
+    private userService:UserService
     ){
   }
  
@@ -36,16 +39,34 @@ export class RegisterComponent implements OnInit{
     password:''
   }
 
+  person$!:Observable<PersonRegister>
+  personError$!: Observable<any>
+
   submit(){
     //para mostrar error cuando le da al boton
-    this.myForm.markAllAsTouched()
-    console.log(this.person);
+    /*
+   
     if(this.myForm.valid){
       //enviar al server
+      this.userService.postUser(this.person)
+      .subscribe({
+        next: (person)=>{
+
+        }
+      })
       console.log('Enviado');
       
     }
-    
+    */
+    this.myForm.markAllAsTouched()
+    console.log(this.person);
+    if(this.myForm.valid){
+    this.person$ = this.userService.postUser(this.person)
+    this.personError$ = this.person$.pipe(
+      ignoreElements(),
+      catchError((err)=>of(err))
+    )
+    }
   }
 
   ifValidField(field:string){
