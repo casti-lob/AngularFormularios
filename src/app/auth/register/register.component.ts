@@ -42,6 +42,22 @@ export class RegisterComponent implements OnInit{
   person$!:Observable<PersonRegister>
   personError$!: Observable<any>
 
+  get emailErrosMsg(): string{
+    const errors = this.myForm.get('email')?.errors;
+    let errorMsg=''
+    if(errors){
+      if(errors['required']){
+        errorMsg = 'Email es obligatorio'
+      }else if(errors['pattern']){
+        errorMsg = 'Email no tiene el formato'
+      }else if(errors['emailTaken']){
+        errorMsg = 'Email ya esta en usao'
+      }
+      
+    }
+    return errorMsg;
+  }
+
   submit(){
     //para mostrar error cuando le da al boton
     /*

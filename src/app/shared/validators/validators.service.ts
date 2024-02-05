@@ -8,7 +8,7 @@ export class ValidatorsService {
 
   nameSurnamePattern: string = '([a-zA-Z]+) ([a-zA-Z]+)'
   emailSurnamePattern: string = '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-
+  
   forbiddenNameValidator (username:string):ValidatorFn{
     
     return (control:AbstractControl):ValidationErrors | null=>{
@@ -27,10 +27,15 @@ export class ValidatorsService {
     return (formControl:AbstractControl):ValidationErrors|null =>{
       const field1Input: string=formControl.get(field1)?.value;
       const field2Input: string=formControl.get(field2)?.value;
+      const control2: FormControl = <FormControl>formControl.get(field2);
 
       if(field1Input!== field2Input){
         formControl.get(field2)?.setErrors({nonEquals:true})
         return{nonEquals: true}
+      }
+
+      if(control2?.errors&& control2.hasError('nonEquals')){
+        
       }
       formControl.get(field2)?.setErrors(null)//ESTO ESTA MAL PORQUE BORRA TODOS LOS ERRORES HAY QUE PILLAR EL OBJETO Y PONERLO A NULL
       return null
