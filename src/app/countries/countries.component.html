@@ -17,7 +17,7 @@
             </select>
         </div>    
     </div>
-
+@if (countries.length) {
     <div class="row mb-3">
         <div class="col">
             <label class="form-label">Pais:</label>
@@ -32,6 +32,31 @@
             </select>
         </div>    
     </div>
+}
+    
+@if (borders.length) {
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label">Fronteras:</label>
+            <select class="form-control"
+            formControlName="border"
+            >
+                <option value=""> --Seleccione el Pais --</option>
+                @for (border of borders; track $index) {
+                    <option [value]="border.ccn3">{{border.name.common}}</option>
+                }
+                
+            </select>
+        </div>    
+    </div>
+}
+ 
+@if (loading) {
+    <button class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+}
 
     <div class="row">
         <div class="col">

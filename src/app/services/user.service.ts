@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PersonRegister } from '../interfaces/personRegister';
+import { Observable } from 'rxjs';
+import { CountryBorders } from '../interfaces/countries';
 
 @Injectable({
   providedIn: 'root'
@@ -14,4 +16,6 @@ export class UserService {
   postUser(user: PersonRegister){
     return this.http.post<PersonRegister>(this.url,user)
   }
+
+
 }
